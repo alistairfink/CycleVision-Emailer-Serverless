@@ -8,11 +8,12 @@ func main() {
 	request := p.Request{
 		Name:    "Alistair Fink",
 		Email:   "alistairfink@gmail.com",
+		Subject: "Test Message",
 		Message: "Hello World!",
 	}
 
 	if p.Logic(request) {
-		println("Successfully Sent!")
+		println("Message Successfully Sent!")
 	} else {
 		println("Message Failed to Send!")
 	}
