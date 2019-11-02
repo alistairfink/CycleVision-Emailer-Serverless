@@ -3,14 +3,23 @@ package p
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/smtp"
 )
 
 func Emailer(w http.ResponseWriter, r *http.Request) {
-	request := Request{}
-	if err := json.NewDecoder(r.Body).Decode(&request); err == nil {
+	body, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		fmt.Fprint(w, "Message Failed to Send!")
+		return
+	}
+
+	var request Request
+	err = json.Unmarshal(body, &request)
+	if err != nil {
 		fmt.Fprint(w, "Message Failed to Send!")
 		return
 	}
